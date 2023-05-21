@@ -6,9 +6,9 @@
 
 int main() {
 
-    //colocar os arquivos dos documentos no vector<string> documentos
-    std::string textoPesquisado = "Eu estou pesquisando isso";
-    std::vector <std::string> documentos; //colocar os arquivos dos documentos
+    //colocar os arquivos dos documentos no vector<wstring> documentos
+    std::wstring textoPesquisado = "Eu estou pesquisando isso";
+    std::vector <std::wstring> documentos; //colocar os arquivos dos documentos
     MaquinaDeBusca(documentos) buscaTeste; //quais documentos tem minha maquina de busca (no caso, todos)
     buscaTeste.pesquisar(textoPesquisado);
 
