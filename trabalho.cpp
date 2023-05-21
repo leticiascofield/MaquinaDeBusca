@@ -35,12 +35,12 @@ class MaquinaDeBusca{
 
         std::vector <std::string> palavrasPesquisadas; //onde ficarão as palavras já separadas no vetor
 
-        for(int i=0; i<texto.size(); i++){ //itera pelo texto
+        for(int i=0; i<textoNormalizado.size(); i++){ //itera pelo texto
             std::string palavraAtual;
-            if(texto[i+1] == ' ' || i+1 == texto.size()){ //se a próxima posição for ' ' ou fim do texto, fazer:
+            if(textoNormalizado[i+1] == ' ' || i+1 == textoNormalizado.size()){ //se a próxima posição for ' ' ou fim do texto, fazer:
                 palavraAtual.clear();
-                for(int j = i; texto[j] != ' ' && j >= 0; j--){ //coloca palavra em palavraAtual (invertida)           
-                    palavraAtual.push_back(texto[j]);  
+                for(int j = i; textoNormalizado[j] != ' ' && j >= 0; j--){ //coloca palavra em palavraAtual (invertida)           
+                    palavraAtual.push_back(textoNormalizado[j]);  
                 }
                 std::reverse(palavraAtual.begin(), palavraAtual.end()); //volta palavra para ordem normal
                 palavrasPesquisadas.push_back(palavraAtual); //coloca palavra em palavrasPesquisadas
