@@ -31,10 +31,21 @@ class MaquinaDeBusca{
     }
 
     //Para separar o texto pesquisado
-    // fazer igual VPL04
     std::vector <std::string> separarPalavras(std::string textoNormalizado){
-        std::vector <std::string> palavrasPesquisadas;
-        //código
+
+        std::vector <std::string> palavrasPesquisadas; //onde ficarão as palavras já separadas no vetor
+
+        for(int i=0; i<texto.size(); i++){ //itera pelo texto
+            std::string palavraAtual;
+            if(texto[i+1] == ' ' || i+1 == texto.size()){ //se a próxima posição for ' ' ou fim do texto, fazer:
+                palavraAtual.clear();
+                for(int j = i; texto[j] != ' ' && j >= 0; j--){ //coloca palavra em palavraAtual (invertida)           
+                    palavraAtual.push_back(texto[j]);  
+                }
+                std::reverse(palavraAtual.begin(), palavraAtual.end()); //volta palavra para ordem normal
+                palavrasPesquisadas.push_back(palavraAtual); //coloca palavra em palavrasPesquisadas
+            }
+        }
         return palavrasPesquisadas;
     }
 
