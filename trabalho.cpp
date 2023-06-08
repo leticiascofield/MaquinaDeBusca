@@ -20,18 +20,18 @@ class MaquinaDeBusca{
     }
 
     //Para normalizar um texto (textoPesquisado e documentos)
-    std::wstring normalizarTexto(std::wstring texto){
+    std::string normalizarTexto(std::string texto){
 
-        std::wstring textoNormalizado;
-        static const std::wstring maiusculaOuAcento = L"ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅàáâãäåÇçÈÉÊËèéêëÌÍÎÏìíîïÒÓÔÕÖØòóôõöøÙÚÛÜùúûüÝý";
-        static const std::wstring caractereBasico = L"abcdefghijklmnopqrstuvwxyzaaaaaaaaaaaacceeeeeeeeiiiiiiiioooooooooooouuuuuuuuyy";
-        static const std::wstring alfabeto = L" abcdefghijklmnopqrstuvwxyz";
-        std::wstring aux;
+        std::string textoNormalizado;
+        static const std::string maiusculaOuAcento = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅàáâãäåÇçÈÉÊËèéêëÌÍÎÏìíîïÒÓÔÕÖØòóôõöøÙÚÛÜùúûüÝý";
+        static const std::string caractereBasico = "abcdefghijklmnopqrstuvwxyzaaaaaaaaaaaacceeeeeeeeiiiiiiiioooooooooooouuuuuuuuyy";
+        static const std::string alfabeto = " abcdefghijklmnopqrstuvwxyz";
+        std::string aux;
         aux.reserve(texto.length());
 
-        for (wchar_t c : texto) { //troca caracteres maiusculos ou com acento para o caractere basico
+        for (char c : texto) { //troca caracteres maiusculos ou com acento para o caractere basico
             size_t found = maiusculaOuAcento.find(c);
-            if (found != std::wstring::npos) {
+            if (found != std::string::npos) {
                 aux += caractereBasico[found];
             } else {
                 aux += c;
