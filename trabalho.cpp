@@ -17,16 +17,16 @@ class MaquinaDeBusca{
     std::string normalizarTexto(std::string texto){
 
         std::string textoNormalizado;
-        static const std::string maiusculaOuAcento = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅàáâãäåÇçÈÉÊËèéêëÌÍÎÏìíîïÒÓÔÕÖØòóôõöøÙÚÛÜùúûüÝý";
-        static const std::string caractereBasico = "abcdefghijklmnopqrstuvwxyzaaaaaaaaaaaacceeeeeeeeiiiiiiiioooooooooooouuuuuuuuyy";
+        static const std::string caractereMaiusculo = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        static const std::string caractereMinusculo = "abcdefghijklmnopqrstuvwxyz";
         static const std::string alfabeto = " abcdefghijklmnopqrstuvwxyz";
         std::string aux;
         aux.reserve(texto.length());
 
-        for (char c : texto) { //troca caracteres maiusculos ou com acento para o caractere basico
-            size_t found = maiusculaOuAcento.find(c);
+        for (char c : texto) { //troca caracteres maiusculos para o caractere basico
+            size_t found = caractereMaiusculo.find(c);
             if (found != std::string::npos) {
-                aux += caractereBasico[found];
+                aux += caractereMinusculo[found];
             } else {
                 aux += c;
             }
@@ -46,11 +46,12 @@ class MaquinaDeBusca{
             count = 0;
         }
 
-        for(int i = 0; i < aux.size(); i++){//coloca a auxiliar no textoNormalizado
+        for(int i = 0; i < aux.size(); i++){ //coloca a auxiliar no textoNormalizado
             textoNormalizado.push_back(aux[i]);
         }
         return textoNormalizado;
     }
+
        std::vector <std::string> pesquisar(std::string textoPesquisado){
         std::string pesquisaNormalizada = normalizarTexto(textoPesquisado);
         std::vector <std::string> palavrasPesquisadas = separarPalavras(pesquisaNormalizada);
@@ -77,29 +78,30 @@ class MaquinaDeBusca{
         }
         return palavrasPesquisadas;
     }
+
     //Função que faz o índice invertido
     std::map<std::string, std::map<std::string, int>> buildInverseIndex(const std::vector<std::string>& files) {
         
-    std::map<std::string, std::map<std::string, int>> inverseIndex;
+        std::map<std::string, std::map<std::string, int>> inverseIndex;
 
-    for (const std::string& file : files) {
-        std::ifstream input(file);
-        std::string line;
+        for (const std::string& file : files) {
+            std::ifstream input(file);
+            std::string line;
 
-        while (std::getline(input, line)) {
-            std::stringstream ss(line);
-            std::string word;
+            while (std::getline(input, line)) {
+                std::stringstream ss(line);
+                std::string word;
 
-            while (ss >> word) {
-                word = normalizarTexto(word);
-                inverseIndex[word][file]++;
+                while (ss >> word) {
+                    word = normalizarTexto(word);
+                    inverseIndex[word][file]++;
+                }
             }
+
+            input.close();
         }
 
-        input.close();
-    }
-
-    return inverseIndex;
+        return inverseIndex;
     }
 
 
@@ -107,7 +109,7 @@ class MaquinaDeBusca{
     // Vector - palavra[i] que aparece nos documentos
     // Map - documento[j] e quantidade de vezes que tem palavra[i] (quantidade>0)
     //usar find()
-    std::vector<std::map <std::string, int>> procurarPalavra(std::vector<std::string> palavrasPesquisadas, std::vector <std::string> documentos){
+    /*std::vector<std::map <std::string, int>> procurarPalavra(std::vector<std::string> palavrasPesquisadas, std::vector <std::string> documentos){
         std::vector<std::map <std::string, int>> documentosComPalavra; 
         //código
         for (int i = 0; i < palavrasPesquisadas.size(); i++){
@@ -118,7 +120,7 @@ class MaquinaDeBusca{
         }
 
         return documentosComPalavra;
-    }
+    }*/
 
     //ver se tem todas as palavras em um docs -> fazer uma função (de map) para contar quantas vezes um string 
     //(ex: d1.txt) aparece no vetor, se a quantidade for igual o tamanho do vetor, esse docs tem todas as palavras
