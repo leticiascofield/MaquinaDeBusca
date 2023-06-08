@@ -56,7 +56,7 @@ class MaquinaDeBusca{
         std::vector <std::string> palavrasPesquisadas = separarPalavras(pesquisaNormalizada);
         std::vector<std::map <std::string, int>> documentosComPalavra = procurarPalavra(palavrasPesquisadas, documentos);
         //Ainda falta resolver prioridade de documentos e retornar
-        return 0;
+        return string;
     }
 
     //Para separar o texto pesquisado
