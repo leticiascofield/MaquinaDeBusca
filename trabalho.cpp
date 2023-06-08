@@ -89,9 +89,9 @@ class MaquinaDeBusca{
     std::vector<std::map <std::wstring, int>> procurarPalavra(std::vector<std::wstring> palavrasPesquisadas, std::vector <std::wstring> documentos){
         std::vector<std::map <std::wstring, int>> documentosComPalavra; 
         //código
-        for (int i = 0; i < palavrasPesquisas.size(); i++){
+        for (int i = 0; i < palavrasPesquisadas.size(); i++){
             for (int j = 0; j < documentos.size(); j++)
-                if (documentos.find(palavrasPesquisas)){
+                if (documentos.find(palavrasPesquisadas)){
 
                 }
         }
