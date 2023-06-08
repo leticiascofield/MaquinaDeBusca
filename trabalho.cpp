@@ -9,10 +9,6 @@ class MaquinaDeBusca{
     //Criar uma maquina de busca com documentos
     MaquinaDeBusca(std::vector <std::wstring> documentos){
         this->documentos = documentos;
-
-        for (int i=0; i < documentos.size(); i++){
-            documentos[i] = normalizarTexto(documentos[i]);
-        }
     }
 
     std::vector <std::wstring> pesquisar(std::wstring textoPesquisado){
