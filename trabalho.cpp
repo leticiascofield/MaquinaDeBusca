@@ -9,16 +9,8 @@ class MaquinaDeBusca{
     public:
 
     //Criar uma maquina de busca com documentos
-    MaquinaDeBusca(std::vector <std::wstring> documentos){
+    MaquinaDeBusca(std::vector <std::string> documentos){
         this->documentos = documentos;
-    }
-
-    std::vector <std::wstring> pesquisar(std::wstring textoPesquisado){
-        std::wstring pesquisaNormalizada = normalizarTexto(textoPesquisado);
-        std::vector <std::wstring> palavrasPesquisadas = separarPalavras(pesquisaNormalizada);
-        std::vector<std::map <std::wstring, int>> documentosComPalavra = procurarPalavra(palavrasPesquisadas, documentos);
-        //Ainda falta resolver prioridade de documentos e retornar
-        return 0;
     }
 
     //Para normalizar um texto (textoPesquisado e documentos)
@@ -59,14 +51,21 @@ class MaquinaDeBusca{
         }
         return textoNormalizado;
     }
+       std::vector <std::string> pesquisar(std::string textoPesquisado){
+        std::string pesquisaNormalizada = normalizarTexto(textoPesquisado);
+        std::vector <std::string> palavrasPesquisadas = separarPalavras(pesquisaNormalizada);
+        std::vector<std::map <std::string, int>> documentosComPalavra = procurarPalavra(palavrasPesquisadas, documentos);
+        //Ainda falta resolver prioridade de documentos e retornar
+        return 0;
+    }
 
     //Para separar o texto pesquisado
-    std::vector <std::wstring> separarPalavras(std::wstring textoNormalizado){
+    std::vector <std::string> separarPalavras(std::string textoNormalizado){
 
-        std::vector <std::wstring> palavrasPesquisadas; //onde ficarão as palavras já separadas no vetor
+        std::vector <std::string> palavrasPesquisadas; //onde ficarão as palavras já separadas no vetor
 
         for(int i=0; i<textoNormalizado.size(); i++){ //itera pelo texto
-            std::wstring palavraAtual;
+            std::string palavraAtual;
             if(textoNormalizado[i+1] == ' ' || i+1 == textoNormalizado.size()){ //se a próxima posição for ' ' ou fim do texto, fazer:
                 palavraAtual.clear();
                 for(int j = i; textoNormalizado[j] != ' ' && j >= 0; j--){ //coloca palavra em palavraAtual (invertida)           
@@ -84,8 +83,8 @@ class MaquinaDeBusca{
     // Vector - palavra[i] que aparece nos documentos
     // Map - documento[j] e quantidade de vezes que tem palavra[i] (quantidade>0)
     //usar find()
-    std::vector<std::map <std::wstring, int>> procurarPalavra(std::vector<std::wstring> palavrasPesquisadas, std::vector <std::wstring> documentos){
-        std::vector<std::map <std::wstring, int>> documentosComPalavra; 
+    std::vector<std::map <std::string, int>> procurarPalavra(std::vector<std::string> palavrasPesquisadas, std::vector <std::string> documentos){
+        std::vector<std::map <std::string, int>> documentosComPalavra; 
         //código
         for (int i = 0; i < palavrasPesquisadas.size(); i++){
             for (int j = 0; j < documentos.size(); j++)
@@ -97,17 +96,17 @@ class MaquinaDeBusca{
         return documentosComPalavra;
     }
 
-    //ver se tem todas as palavras em um docs -> fazer uma função (de map) para contar quantas vezes um wstring 
+    //ver se tem todas as palavras em um docs -> fazer uma função (de map) para contar quantas vezes um string 
     //(ex: d1.txt) aparece no vetor, se a quantidade for igual o tamanho do vetor, esse docs tem todas as palavras
 
     //somar os ints desse docs (que é um map), o que for maior aparece primeiro
     //if dois sejam iguais, aparecer o com nome menor
 
 
-    //Ainda tem que fazer funções do subsistema de recuperação e no main colocar os arquivos dos documentos no vector<wstring>
+    //Ainda tem que fazer funções do subsistema de recuperação e no main colocar os arquivos dos documentos no vector<string>
     private:
 
-    std::vector <std::wstring> documentos;
+    std::vector <std::string> documentos;
 
     //Função que faz o índice invertido
     std::map<std::string, std::map<std::string, int>> buildInverseIndex(const std::vector<std::string>& files) {
