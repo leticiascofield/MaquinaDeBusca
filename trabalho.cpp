@@ -77,6 +77,30 @@ class MaquinaDeBusca{
         }
         return palavrasPesquisadas;
     }
+    //Função que faz o índice invertido
+    std::map<std::string, std::map<std::string, int>> buildInverseIndex(const std::vector<std::string>& files) {
+        
+    std::map<std::string, std::map<std::string, int>> inverseIndex;
+
+    for (const std::string& file : files) {
+        std::ifstream input(file);
+        std::string line;
+
+        while (std::getline(input, line)) {
+            std::stringstream ss(line);
+            std::string word;
+
+            while (ss >> word) {
+                word = normalizarTexto(word);
+                inverseIndex[word][file]++;
+            }
+        }
+
+        input.close();
+    }
+
+    return inverseIndex;
+    }
 
 
     //Para procurar as palavras pesquisadas nos documentos
@@ -108,29 +132,5 @@ class MaquinaDeBusca{
 
     std::vector <std::string> documentos;
 
-    //Função que faz o índice invertido
-    std::map<std::string, std::map<std::string, int>> buildInverseIndex(const std::vector<std::string>& files) {
-        
-    std::map<std::string, std::map<std::string, int>> inverseIndex;
-
-    for (const std::string& file : files) {
-        std::ifstream input(file);
-        std::string line;
-
-        while (std::getline(input, line)) {
-            std::stringstream ss(line);
-            std::string word;
-
-            while (ss >> word) {
-                word = normalizarTexto(word);
-                inverseIndex[word][file]++;
-            }
-        }
-
-        input.close();
-    }
-
-    return inverseIndex;
-}
-
+    
 };
