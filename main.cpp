@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <vector>
+//Resta inserir #include 'maquinadebusca.hpp'
 
 int main() {
 
