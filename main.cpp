@@ -1,35 +1,53 @@
+#include "MaquinadeBusca.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <map>
 #include <vector>
-//Resta inserir #include 'maquinadebusca.hpp'
+
+using namespace std;
 
 int main() {
-
-    std::vector<std::string> files; //Insere todos os arquivos de d1.txt até d30.txt
+std::vector<std::string> files; // Insira todos os arquivos de d1.txt até d30.txt
     for (int i = 1; i <= 30; ++i) {
         files.push_back("d" + std::to_string(i) + ".txt");
     }
 
-    // Faz o índice invertido
-    std::map<std::string, std::map<std::string, int>> inverseIndex = buildInverseIndex(files);
+    MaquinaDeBusca Maquina(files);
 
-    // Abre o arquivo que contém todas as palavras de todos os arquivos
-    std::ofstream outputFile("output.txt");
+    // Constrói o índice invertido
+    std::map<std::string, std::map<std::string, int>> inverseIndex;
+    inverseIndex = Maquina.buildInverseIndex(files);
 
-    // Escreve o índice invertido no arquivo output.txt
-    for (const auto& termEntry : inverseIndex) {
-        outputFile << termEntry.first << ":\n";
-        const std::map<std::string, int>& docMap = termEntry.second;
+    std::string textoPesquisado;
+    std::cout << "Digite o texto a ser pesquisado: ";
+    std::getline(std::cin, textoPesquisado);
 
-        for (const auto& docEntry : docMap) {
-            outputFile << "   " << docEntry.first << ": " << docEntry.second << "\n";
-        }
+    // Normaliza o texto pesquisado
+    std::string pesquisaNormalizada;
+    pesquisaNormalizada = Maquina.normalizarTexto(textoPesquisado);
+
+    // Separa as palavras pesquisadas
+    std::vector<std::string> palavrasPesquisadas;
+    palavrasPesquisadas = Maquina.separarPalavras(pesquisaNormalizada);
+
+    // Procura as palavras nos documentos e obtém os documentos ordenados por prioridade
+    std::vector<std::string> documentosOrdenados;
+    documentosOrdenados = Maquina.procurarPalavras(palavrasPesquisadas, inverseIndex);
+
+    std::cout << "Palavras pesquisadas:" << std::endl;
+    for (const auto& palavra : palavrasPesquisadas) {
+        std::cout << palavra << std::endl;
     }
 
-    // Fecha o arquivo output.txt
-    outputFile.close();
+    if (documentosOrdenados.empty()) {
+        std::cout << "Nenhum documento encontrado com as palavras pesquisadas." << std::endl;
+    } else {
+        std::cout << "Documentos encontrados (em ordem de prioridade):" << std::endl;
+        for (const auto& documento : documentosOrdenados) {
+            std::cout << documento << std::endl;
+        }
+    }
 
     return 0;
 }
