@@ -1,33 +1,25 @@
-# Nome do executável
-TARGET = programa
+CC = g++
+CFLAGS = -Wall -std=c++11
 
-# Compilador
-CXX = g++
+INCLUDE_DIR = include
+SRC_DIR = src
+BUILD_DIR = build
 
-# Flags de compilação
-CXXFLAGS = -std=c++11 -Wall
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)
+OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
+MAIN_OBJ = $(BUILD_DIR)/main.o
+EXEC = trabalho
 
-# Diretório dos arquivos de origem
-SRCDIR = src
+all: $(EXEC)
 
-# Lista de arquivos fonte
-SOURCES = $(SRCDIR)/MaquinadeBusca.cpp \
-          $(SRCDIR)/Main.cpp
+$(EXEC): $(OBJS) $(MAIN_OBJ)
+	$(CC) $(CFLAGS) $(OBJS) -o $(EXEC)
 
-# Lista de arquivos objeto
-OBJECTS = $(SOURCES:.cpp=.o)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
-# Regra padrão de compilação
-all: $(TARGET)
+$(MAIN_OBJ): src/main.cpp
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
-# Regra de ligação
-$(TARGET): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $^ -o $@
-
-# Regra de compilação dos arquivos objeto
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# Limpar arquivos objeto e executável
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -rf $(BUILD_DIR) $(EXEC)

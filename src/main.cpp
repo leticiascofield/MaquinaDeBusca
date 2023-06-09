@@ -10,7 +10,7 @@ using namespace std;
 int main() {
 std::vector<std::string> files; // Insira todos os arquivos de d1.txt até d30.txt
     for (int i = 1; i <= 30; ++i) {
-        files.push_back("d" + std::to_string(i) + ".txt");
+        files.push_back("d" + to_string(i) + ".txt");
     }
 
     MaquinaDeBusca Maquina(files);

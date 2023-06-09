@@ -96,7 +96,7 @@ return inverseIndex;
 }
 
 
-std::vector<std::string> procurarPalavras(const std::vector<std::string>& palavrasPesquisadas, const std::map<std::string, std::map<std::string, int>>& inverseIndex) {
+vector<string> MaquinaDeBusca::procurarPalavras(const std::vector<std::string>& palavrasPesquisadas, const std::map<std::string, std::map<std::string, int>>& inverseIndex) {
     std::map<std::string, int> prioridadeDocumentos;
 
     for (const auto& palavra : palavrasPesquisadas) {
