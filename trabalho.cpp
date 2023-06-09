@@ -53,14 +53,7 @@ class MaquinaDeBusca{
         }
         return textoNormalizado;
     }
-       std::vector <std::string> pesquisar(std::string textoPesquisado){
-        std::string pesquisaNormalizada = normalizarTexto(textoPesquisado);
-        std::vector <std::string> palavrasPesquisadas = separarPalavras(pesquisaNormalizada);
-        std::vector<std::map <std::string, int>> documentosComPalavra = procurarPalavra(palavrasPesquisadas, documentos);
-        //Ainda falta resolver prioridade de documentos e retornar
-        return {};
-    }
-
+       
     //Para separar o texto pesquisado
     std::vector <std::string> separarPalavras(std::string textoNormalizado){
         
@@ -77,6 +70,12 @@ class MaquinaDeBusca{
     }
   }
    return palavrasPesquisadas;
+    }
+      std::vector <std::string> pesquisar(std::string textoPesquisado){
+        std::string pesquisaNormalizada = normalizarTexto(textoPesquisado);
+        std::vector <std::string> palavrasPesquisadas = separarPalavras(pesquisaNormalizada);
+    
+        return {};
     }
 
     //Função que faz o índice invertido
