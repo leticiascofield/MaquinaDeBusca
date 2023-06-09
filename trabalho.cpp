@@ -104,18 +104,40 @@ class MaquinaDeBusca{
         return inverseIndex;
     }
 
-    std::vector<std::map <std::string, int>> procurarPalavra(std::vector<std::string> palavrasPesquisadas, std::vector <std::string> documentos){
-        std::vector<std::map <std::string, int>> documentosComPalavra; 
-        //código
-        for (int i = 0; i < palavrasPesquisadas.size(); i++){
-            for (int j = 0; j < documentos.size(); j++)
-                if (documentos.find(palavrasPesquisadas)){
+    std::vector<std::string> procurarPalavras(const std::vector<std::string>& palavrasPesquisadas, const std::map<std::string, std::map<std::string, int>>& inverseIndex) {
+    // Mapeia a quantidade de palavras pesquisadas encontradas em cada documento
+    std::map<std::string, int> prioridadeDocumentos;
 
+    for (const auto& palavra : palavrasPesquisadas) {
+        const auto& documentos = inverseIndex.find(palavra);
+
+        if (documentos != inverseIndex.end()) {
+            for (const auto& documento : documentos->second) {
+                if (documento.second > 0) {
+                    prioridadeDocumentos[documento.first]++;
                 }
+            }
         }
-
-        return documentosComPalavra;
     }
+
+    // Filtra os documentos que possuem todas as palavras pesquisadas
+    std::vector<std::string> documentosComTodasPalavras;
+
+    for (const auto& documento : prioridadeDocumentos) {
+        if (documento.second == palavrasPesquisadas.size()) {
+            documentosComTodasPalavras.push_back(documento.first);
+        }
+    }
+
+    // Ordena os documentos com base na prioridade (quantidade de palavras pesquisadas encontradas)
+    std::sort(documentosComTodasPalavras.begin(), documentosComTodasPalavras.end(),
+        [](const std::string& a, const std::string& b) {
+            return a < b;
+        }
+    );
+
+    return documentosComTodasPalavras;
+}
 
 
     //somar os ints desse docs (que é um map), o que for maior aparece primeiro
