@@ -82,26 +82,26 @@ class MaquinaDeBusca{
     //Função que faz o índice invertido
     std::map<std::string, std::map<std::string, int>> buildInverseIndex(const std::vector<std::string>& files) {
         
-        std::map<std::string, std::map<std::string, int>> inverseIndex;
+    std::map<std::string, std::map<std::string, int>> inverseIndex;
 
-        for (const std::string& file : files) {
-            std::ifstream input(file);
-            std::string line;
+    for (const std::string& file : files) {
+        std::ifstream input(file);
+        std::string line;
 
-            while (std::getline(input, line)) {
-                std::stringstream ss(line);
-                std::string word;
+        while (std::getline(input, line)) {
+            std::stringstream ss(line);
+            std::string word;
 
-                while (ss >> word) {
-                    word = normalizarTexto(word);
-                    inverseIndex[word][file]++;
-                }
+            while (ss >> word) {
+                word = normalizarTexto(word);
+                inverseIndex[word][file]++;
             }
-
-            input.close();
         }
 
-        return inverseIndex;
+        input.close();
+    }
+
+    return inverseIndex;
     }
 
     std::vector<std::map <std::string, int>> procurarPalavra(std::vector<std::string> palavrasPesquisadas, std::vector <std::string> documentos){
