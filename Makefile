@@ -1,25 +1,8 @@
-CC = g++
-CFLAGS = -Wall -std=c++11
+tp_executation: ./build/MaquinadeBusca.o ./build/main.o
+	g++ ./build/*.o -o tp_execution
 
-INCLUDE_DIR = include
-SRC_DIR = src
-BUILD_DIR = build
+./build/MaquinadeBusca.o: ./include/MaquinadeBusca.hpp ./src/MaquinadeBusca.cpp
+	g++ -I ./include/ -c ./src/MaquinadeBusca.cpp -o ./build/MaquinadeBusca.o
 
-SRCS = $(wildcard $(SRC_DIR)/*.cpp)
-OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SRCS))
-MAIN_OBJ = $(BUILD_DIR)/main.o
-EXEC = trabalho
-
-all: $(EXEC)
-
-$(EXEC): $(OBJS) $(MAIN_OBJ)
-	$(CC) $(CFLAGS) $(OBJS) -o $(EXEC)
-
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
-
-$(MAIN_OBJ): src/main.cpp
-	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
-
-clean:
-	rm -rf $(BUILD_DIR) $(EXEC)
+./build/main.o: ./include/MaquinadeBusca.hpp ./src/main.cpp
+	g++ -I ./include/ -c ./src/main.cpp -o ./build/main.o
