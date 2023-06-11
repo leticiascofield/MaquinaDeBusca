@@ -15,8 +15,8 @@ MaquinaDeBusca::MaquinaDeBusca(std::vector <std::string> documentos){
 
 string MaquinaDeBusca::normalizarTexto(std::string texto){
     std::string textoNormalizado;
-    static const std::string maiusculaOuAcento = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅàáâãäåÇçÈÉÊËèéêëÌÍÎÏìíîïÒÓÔÕÖØòóôõöøÙÚÛÜùúûüÝý";
-    static const std::string caractereBasico = "abcdefghijklmnopqrstuvwxyzaaaaaaaaaaaacceeeeeeeeiiiiiiiioooooooooooouuuuuuuuyy";
+    static const std::string maiusculaOuAcento = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static const std::string caractereBasico = "abcdefghijklmnopqrstuvwxyz";
     static const std::string alfabeto = " abcdefghijklmnopqrstuvwxyz";
     std::string aux;
     aux.reserve(texto.length());
@@ -73,35 +73,34 @@ vector<string> MaquinaDeBusca::pesquisar(std::string textoPesquisado){
     return {};
 }
 
-map<string, map<string, int>> MaquinaDeBusca::buildInverseIndex(const std::vector<std::string>& files) {
-    std::map<std::string, std::map<std::string, int>> inverseIndex;
+map<string, map<string, int>> MaquinaDeBusca::criarIndiceInvertido(const std::vector<std::string>& documentos) {
+    std::map<std::string, std::map<std::string, int>> indiceInvertido;
 
-    for (const std::string& file : files) {
-    std::ifstream input(file);
-    std::string line;
+    for (const std::string& documento : documentos) {
+        std::ifstream input(documento);
+        std::string linha;
 
-        while (std::getline(input, line)) {
-            std::stringstream ss(line);
-            std::string word;
+        while (std::getline(input, linha)) {
+            std::stringstream ss(linha);
+            std::string palavra;
 
-            while (ss >> word) {
-                word = normalizarTexto(word);
-                inverseIndex[word][file]++;
+            while (ss >> palavra) {
+                palavra = normalizarTexto(palavra);
+                indiceInvertido[palavra][documento]++;
             }
         }
-
-    input.close();
+        input.close();
+    }
+    return indiceInvertido;
 }
-return inverseIndex;
-}
 
 
-vector<string> MaquinaDeBusca::procurarPalavras(const std::vector<std::string>& palavrasPesquisadas, const std::map<std::string, std::map<std::string, int>>& inverseIndex) {
+vector<string> MaquinaDeBusca::procurarPalavras(const std::vector<std::string>& palavrasPesquisadas, const std::map<std::string, std::map<std::string, int>>& indiceInvertido) {
     std::map<std::string, int> prioridadeDocumentos;
 
     for (const auto& palavra : palavrasPesquisadas) {
-    const auto& documentos = inverseIndex.find(palavra);
-        if (documentos != inverseIndex.end()) {
+    const auto& documentos = indiceInvertido.find(palavra);
+        if (documentos != indiceInvertido.end()) {
             for (const auto& documento : documentos->second) {
                 if (documento.second > 0) {
                     prioridadeDocumentos[documento.first] += documento.second;

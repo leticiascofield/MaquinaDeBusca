@@ -8,16 +8,16 @@
 using namespace std;
 
 int main() {
-std::vector<std::string> files; // Insira todos os arquivos de d1.txt até d30.txt
+std::vector<std::string> documentos; // Insira todos os arquivos de d1.txt até d30.txt
     for (int i = 1; i <= 30; ++i) {
-        files.push_back("d" + to_string(i) + ".txt");
+        documentos.push_back("d" + to_string(i) + ".txt");
     }
 
-    MaquinaDeBusca Maquina(files);
+    MaquinaDeBusca Maquina(documentos);
 
     // Constrói o índice invertido
-    std::map<std::string, std::map<std::string, int>> inverseIndex;
-    inverseIndex = Maquina.buildInverseIndex(files);
+    std::map<std::string, std::map<std::string, int>> indiceInvertido;
+    indiceInvertido = Maquina.criarIndiceInvertido(documentos);
 
     std::string textoPesquisado;
     std::cout << "Digite o texto a ser pesquisado: ";
@@ -33,7 +33,7 @@ std::vector<std::string> files; // Insira todos os arquivos de d1.txt até d30.t
 
     // Procura as palavras nos documentos e obtém os documentos ordenados por prioridade
     std::vector<std::string> documentosOrdenados;
-    documentosOrdenados = Maquina.procurarPalavras(palavrasPesquisadas, inverseIndex);
+    documentosOrdenados = Maquina.procurarPalavras(palavrasPesquisadas, indiceInvertido);
 
     std::cout << "Palavras pesquisadas:" << std::endl;
     for (const auto& palavra : palavrasPesquisadas) {
