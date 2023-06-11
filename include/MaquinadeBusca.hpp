@@ -5,28 +5,32 @@
 #include <vector>
 #include <map>
 
+using std::string;  
+using std::vector;
+using std::map;
+
 class MaquinaDeBusca{
     public:
-    //Criar uma maquina de busca com documentos
-    MaquinaDeBusca(std::vector <std::string> documentos);
+    //Criar uma maquina de busca com os documentos
+    MaquinaDeBusca(vector <string> documentos);
 
-    //Para normalizar um texto (textoPesquisado e documentos)
-    std::string normalizarTexto(std::string texto);
+    //Normalizar um texto (sendo textoPesquisado ou documentos)
+    string normalizarTexto(string texto);
        
-    //Para separar o texto pesquisado
-    std::vector <std::string> separarPalavras(std::string textoNormalizado);
+    //Separar o texto pesquisado em um vetor com as palavras
+    vector <string> separarPalavras(string textoNormalizado);
 
-    //Para organizar o texto pesquisado
-    std::vector <std::string> pesquisar(std::string textoPesquisado);
+    //Criar o índice invertido
+    map<string, map<string, int>> criarIndiceInvertido(const vector<string>& documentos);
 
-    //Função que faz o índice invertido
-    std::map<std::string, std::map<std::string, int>> criarIndiceInvertido(const std::vector<std::string>& documentos);
+    //Ordenar os documentos (documentos com todas as palavras e ordem de frequência)
+    vector<string> ordenarDocumentos(const vector<string>& palavrasPesquisadas, const map<string, map<string, int>>& indiceInvertido);
 
-    //A função que retorna a prioridade dos documentos
-    std::vector<std::string> procurarPalavras(const std::vector<std::string>& palavrasPesquisadas, const std::map<std::string, std::map<std::string, int>>& indiceInvertido);
+    //Engloba as outras funções
+    vector <string> pesquisar(string textoPesquisado);
 
     private:
-    std::vector <std::string> documentos;
+    vector <string> documentos;
     
 };
 

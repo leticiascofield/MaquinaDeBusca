@@ -5,47 +5,34 @@
 #include <map>
 #include <vector>
 
-using namespace std;
+using std::string;  
+using std::vector;
+using std::to_string;
+using std::cin;
+using std::cout;
+using std::getline;
+using std::endl;
 
 int main() {
-std::vector<std::string> documentos; // Insira todos os arquivos de d1.txt até d30.txt
+vector<string> documentos; // Insira todos os arquivos de d1.txt até d30.txt
     for (int i = 1; i <= 30; ++i) {
         documentos.push_back("d" + to_string(i) + ".txt");
     }
 
     MaquinaDeBusca Maquina(documentos);
 
-    // Constrói o índice invertido
-    std::map<std::string, std::map<std::string, int>> indiceInvertido;
-    indiceInvertido = Maquina.criarIndiceInvertido(documentos);
+    string textoPesquisado;
+    cout << "Digite o texto a ser pesquisado: ";
+    getline(cin, textoPesquisado);
 
-    std::string textoPesquisado;
-    std::cout << "Digite o texto a ser pesquisado: ";
-    std::getline(std::cin, textoPesquisado);
-
-    // Normaliza o texto pesquisado
-    std::string pesquisaNormalizada;
-    pesquisaNormalizada = Maquina.normalizarTexto(textoPesquisado);
-
-    // Separa as palavras pesquisadas
-    std::vector<std::string> palavrasPesquisadas;
-    palavrasPesquisadas = Maquina.separarPalavras(pesquisaNormalizada);
-
-    // Procura as palavras nos documentos e obtém os documentos ordenados por prioridade
-    std::vector<std::string> documentosOrdenados;
-    documentosOrdenados = Maquina.procurarPalavras(palavrasPesquisadas, indiceInvertido);
-
-    std::cout << "Palavras pesquisadas:" << std::endl;
-    for (const auto& palavra : palavrasPesquisadas) {
-        std::cout << palavra << std::endl;
-    }
+    vector<string> documentosOrdenados = Maquina.pesquisar(textoPesquisado);
 
     if (documentosOrdenados.empty()) {
-        std::cout << "Nenhum documento encontrado com as palavras pesquisadas." << std::endl;
+        cout << "Nenhum documento encontrado com as palavras pesquisadas." << endl;
     } else {
-        std::cout << "Documentos encontrados (em ordem de prioridade):" << std::endl;
+        cout << "Documentos encontrados (em ordem de prioridade):" << endl;
         for (const auto& documento : documentosOrdenados) {
-            std::cout << documento << std::endl;
+            cout << documento << endl;
         }
     }
 

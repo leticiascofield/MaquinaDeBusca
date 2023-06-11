@@ -7,55 +7,58 @@
 #include <sstream>
 #include <algorithm>
 
-using namespace std;
+using std::string;  
+using std::vector;
+using std::map;
+using std::stringstream;
 
-MaquinaDeBusca::MaquinaDeBusca(std::vector <std::string> documentos){
+MaquinaDeBusca::MaquinaDeBusca(vector <string> documentos){
     this->documentos = documentos;
 }
 
-string MaquinaDeBusca::normalizarTexto(std::string texto){
-    std::string textoNormalizado;
-    static const std::string maiusculaOuAcento = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    static const std::string caractereBasico = "abcdefghijklmnopqrstuvwxyz";
-    static const std::string alfabeto = " abcdefghijklmnopqrstuvwxyz";
-    std::string aux;
+string MaquinaDeBusca::normalizarTexto(string texto){
+    string textoNormalizado;
+    static const string caractereMaiusculo = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    static const string caractereBasico = "abcdefghijklmnopqrstuvwxyz";
+    static const string alfabetoOuEspaco = " abcdefghijklmnopqrstuvwxyz";
+    string aux;
     aux.reserve(texto.length());
 
-        for (char c : texto) { //troca caracteres maiusculos ou com acento para o caractere basico
-            size_t found = maiusculaOuAcento.find(c);
-            if (found != std::string::npos) {
-                    aux += caractereBasico[found];
-            } else {
-                    aux += c;
-            }
+    for (char c : texto) { //troca caracteres maiusculos para o caractere basico
+        size_t found = caractereMaiusculo.find(c);
+        if (found != string::npos) {
+                aux += caractereBasico[found];
+        } else {
+                aux += c;
         }
+    }
 
-        int count = 0;
-        for(int i = 0; i < aux.size(); i++){ //exclui caracteres que não são letras ou espaço
-            for(int j = 0; j < alfabeto.size(); j++){
-                if(aux[i] == alfabeto[j]){
-                    count++;
-                }
+    int count = 0;
+    for(int i = 0; i < aux.size(); i++){ //exclui caracteres que não são letras ou espaço
+        for(int j = 0; j < alfabetoOuEspaco.size(); j++){
+            if(aux[i] == alfabetoOuEspaco[j]){
+                count++;
             }
-            if(count == 0){
-                aux.erase(aux.begin() + i);
-                i--;
-            }
-            count = 0;
         }
+        if(count == 0){
+            aux.erase(aux.begin() + i);
+            i--;
+        }
+        count = 0;
+    }
 
-        for(int i = 0; i < aux.size(); i++){//coloca a auxiliar no textoNormalizado
-            textoNormalizado.push_back(aux[i]);
-        }
+    for(int i = 0; i < aux.size(); i++){ //coloca a auxiliar no textoNormalizado
+        textoNormalizado.push_back(aux[i]);
+    }
+
     return textoNormalizado;
 }
        
-//Para separar o texto pesquisado
-vector<string> MaquinaDeBusca::separarPalavras(std::string textoNormalizado){
-    std::vector <std::string> palavrasPesquisadas; //onde ficarão as palavras já separadas no vetor
+vector<string> MaquinaDeBusca::separarPalavras(string textoNormalizado){
+    vector <string> palavrasPesquisadas; //vetor onde ficarão as palavras já separadas
 
     for (int i = 0; i < textoNormalizado.size(); i++) {
-    std::string palavraAtual;
+    string palavraAtual;
         if (textoNormalizado[i] != ' '){
             while (i < textoNormalizado.size() && textoNormalizado[i] != ' '){
             palavraAtual.push_back(textoNormalizado[i]);
@@ -64,25 +67,20 @@ vector<string> MaquinaDeBusca::separarPalavras(std::string textoNormalizado){
         palavrasPesquisadas.push_back(palavraAtual);
         }
     }
-return palavrasPesquisadas;
+
+    return palavrasPesquisadas;
 }
 
-vector<string> MaquinaDeBusca::pesquisar(std::string textoPesquisado){
-    std::string pesquisaNormalizada = normalizarTexto(textoPesquisado);
-    std::vector <std::string> palavrasPesquisadas = separarPalavras(pesquisaNormalizada);
-    return {};
-}
+map<string, map<string, int>> MaquinaDeBusca::criarIndiceInvertido(const vector<string>& documentos) {
+    map<string, map<string, int>> indiceInvertido;
 
-map<string, map<string, int>> MaquinaDeBusca::criarIndiceInvertido(const std::vector<std::string>& documentos) {
-    std::map<std::string, std::map<std::string, int>> indiceInvertido;
-
-    for (const std::string& documento : documentos) {
+    for (const string& documento : documentos) {
         std::ifstream input(documento);
-        std::string linha;
+        string linha;
 
         while (std::getline(input, linha)) {
-            std::stringstream ss(linha);
-            std::string palavra;
+            stringstream ss(linha);
+            string palavra;
 
             while (ss >> palavra) {
                 palavra = normalizarTexto(palavra);
@@ -91,12 +89,13 @@ map<string, map<string, int>> MaquinaDeBusca::criarIndiceInvertido(const std::ve
         }
         input.close();
     }
+
     return indiceInvertido;
 }
 
 
-vector<string> MaquinaDeBusca::procurarPalavras(const std::vector<std::string>& palavrasPesquisadas, const std::map<std::string, std::map<std::string, int>>& indiceInvertido) {
-    std::map<std::string, int> prioridadeDocumentos;
+vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasPesquisadas, const map<string, map<string, int>>& indiceInvertido) {
+    map<string, int> prioridadeDocumentos;
 
     for (const auto& palavra : palavrasPesquisadas) {
     const auto& documentos = indiceInvertido.find(palavra);
@@ -109,7 +108,8 @@ vector<string> MaquinaDeBusca::procurarPalavras(const std::vector<std::string>& 
         }
     }
     // Filtra os documentos que possuem todas as palavras pesquisadas
-    std::vector<std::string> documentosComTodasPalavras;
+    vector<string> documentosComTodasPalavras;
+    vector<string> documentosOrdenados;
 
     for (const auto& documento : prioridadeDocumentos) {
         if (documento.second > 0) {
@@ -118,17 +118,28 @@ vector<string> MaquinaDeBusca::procurarPalavras(const std::vector<std::string>& 
     }
 
     // Ordena os documentos com base na prioridade (soma das ocorrências de todas as palavras pesquisadas)
-    std::sort(documentosComTodasPalavras.begin(), documentosComTodasPalavras.end(),
-    [&prioridadeDocumentos](const std::string& a, const std::string& b) {
-        if (prioridadeDocumentos[a] == prioridadeDocumentos[b]) {
-            return a < b;
+    std::sort(
+        documentosComTodasPalavras.begin(),
+        documentosComTodasPalavras.end(),
+        [&prioridadeDocumentos](const string& a, const string& b) {
+            if (prioridadeDocumentos[a] == prioridadeDocumentos[b]) {
+                return a < b;
+            }
+            return prioridadeDocumentos[a] > prioridadeDocumentos[b];
         }
-        return prioridadeDocumentos[a] > prioridadeDocumentos[b];
+    );
+
+    for(int i = 0; i < documentosComTodasPalavras.size(); i++){ //coloca o documentosComTodasPalavras no documentosOrdenados
+        documentosOrdenados.push_back(documentosComTodasPalavras[i]);
     }
-);
-return documentosComTodasPalavras;
+
+    return documentosOrdenados;
 }
 
-
-    //somar os ints desse docs (que é um map), o que for maior aparece primeiro
-    //if dois sejam iguais, aparecer o com nome menor
+vector<string> MaquinaDeBusca::pesquisar(string textoPesquisado){
+    map<string, map<string, int>> indiceInvertido = criarIndiceInvertido(documentos);
+    string pesquisaNormalizada = normalizarTexto(textoPesquisado);
+    vector <string> palavrasPesquisadas = separarPalavras(pesquisaNormalizada);
+    vector<string> documentosOrdenados = ordenarDocumentos(palavrasPesquisadas, indiceInvertido);
+    return documentosOrdenados;
+}
