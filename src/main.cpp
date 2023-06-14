@@ -27,14 +27,7 @@ vector<string> documentos; // Insira todos os arquivos de d1.txt até d30.txt
 
     vector<string> documentosOrdenados = Maquina.pesquisar(textoPesquisado);
 
-    if (documentosOrdenados.empty()) {
-        cout << "Nenhum documento encontrado com as palavras pesquisadas." << endl;
-    } else {
-        cout << "Documentos encontrados (em ordem de prioridade):" << endl;
-        for (const auto& documento : documentosOrdenados) {
-            cout << documento << endl;
-        }
-    }
+  
 
     return 0;
 }

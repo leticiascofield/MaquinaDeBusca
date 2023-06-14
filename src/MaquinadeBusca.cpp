@@ -93,7 +93,6 @@ map<string, map<string, int>> MaquinaDeBusca::criarIndiceInvertido(const vector<
     return indiceInvertido;
 }
 
-
 vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasPesquisadas, const map<string, map<string, int>>& indiceInvertido) {
     map<string, int> prioridadeDocumentos;
 
@@ -132,10 +131,17 @@ vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasP
     for(int i = 0; i < documentosComTodasPalavras.size(); i++){ //coloca o documentosComTodasPalavras no documentosOrdenados
         documentosOrdenados.push_back(documentosComTodasPalavras[i]);
     }
+    if (documentosOrdenados.empty()) {
+       std:: cout << "Nenhum documento encontrado com as palavras pesquisadas." << std::endl;
+    } else {
+        std::cout << "Documentos encontrados (em ordem de prioridade):" <<std:: endl;
+        for (const auto& documento : documentosOrdenados) {
+           std:: cout << documento << std:: endl;
+        }
+    }
 
     return documentosOrdenados;
 }
-
 vector<string> MaquinaDeBusca::pesquisar(string textoPesquisado){
     map<string, map<string, int>> indiceInvertido = criarIndiceInvertido(documentos);
     string pesquisaNormalizada = normalizarTexto(textoPesquisado);
