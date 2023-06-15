@@ -97,23 +97,25 @@ vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasP
     map<string, int> prioridadeDocumentos;
 
     for (const auto& palavra : palavrasPesquisadas) {
-    const auto& documentos = indiceInvertido.find(palavra);
+        const auto& documentos = indiceInvertido.find(palavra);
         if (documentos != indiceInvertido.end()) {
             for (const auto& documento : documentos->second) {
                 if (documento.second > 0) {
                     prioridadeDocumentos[documento.first] += documento.second;
+                } else {
+                    // Se o documento não tiver todas as palavras, remove-o da lista de prioridade
+                    prioridadeDocumentos.erase(documento.first);
                 }
             }
         }
     }
+
     // Filtra os documentos que possuem todas as palavras pesquisadas
     vector<string> documentosComTodasPalavras;
     vector<string> documentosOrdenados;
 
     for (const auto& documento : prioridadeDocumentos) {
-        if (documento.second > 0) {
-            documentosComTodasPalavras.push_back(documento.first);
-        }
+        documentosComTodasPalavras.push_back(documento.first);
     }
 
     // Ordena os documentos com base na prioridade (soma das ocorrências de todas as palavras pesquisadas)
@@ -128,20 +130,22 @@ vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasP
         }
     );
 
-    for(int i = 0; i < documentosComTodasPalavras.size(); i++){ //coloca o documentosComTodasPalavras no documentosOrdenados
+    for (int i = 0; i < documentosComTodasPalavras.size(); i++) { // coloca os documentosComTodasPalavras no documentosOrdenados
         documentosOrdenados.push_back(documentosComTodasPalavras[i]);
     }
+
     if (documentosOrdenados.empty()) {
-       std:: cout << "Nenhum documento encontrado com as palavras pesquisadas." << std::endl;
+        std::cout << "Nenhum documento encontrado com as palavras pesquisadas." << std::endl;
     } else {
-        std::cout << "Documentos encontrados (em ordem de prioridade):" <<std:: endl;
+        std::cout << "Documentos encontrados (em ordem de prioridade):" << std::endl;
         for (const auto& documento : documentosOrdenados) {
-           std:: cout << documento << std:: endl;
+            std::cout << documento << std::endl;
         }
     }
 
     return documentosOrdenados;
 }
+
 vector<string> MaquinaDeBusca::pesquisar(string textoPesquisado){
     map<string, map<string, int>> indiceInvertido = criarIndiceInvertido(documentos);
     string pesquisaNormalizada = normalizarTexto(textoPesquisado);
