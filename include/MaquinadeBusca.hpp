@@ -24,14 +24,15 @@ class MaquinaDeBusca{
     map<string, map<string, int>> criarIndiceInvertido(const vector<string>& documentos);
 
     //Ordenar os documentos (documentos com todas as palavras e ordem de frequência)
-    vector<string> ordenarDocumentos(const vector<string>& palavrasPesquisadas, const map<string, map<string, int>>& indiceInvertido);
+    vector<string> ordenarDocumentos(const vector<string>& palavrasPesquisadas);
 
     //Engloba as outras funções
     vector <string> pesquisar(string textoPesquisado);
 
     private:
     vector <string> documentos;
-    
+    map<string, map<string, int>> indiceInvertido;
+
 };
 
 #endif

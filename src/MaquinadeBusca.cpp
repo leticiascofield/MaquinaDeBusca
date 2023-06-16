@@ -93,7 +93,7 @@ map<string, map<string, int>> MaquinaDeBusca::criarIndiceInvertido(const vector<
     return indiceInvertido;
 }
 
-vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasPesquisadas, const map<string, map<string, int>>& indiceInvertido) {
+vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasPesquisadas) {
     map<string, int> prioridadeDocumentos;
 
     for (const auto& palavra : palavrasPesquisadas) {
@@ -150,6 +150,6 @@ vector<string> MaquinaDeBusca::pesquisar(string textoPesquisado){
     map<string, map<string, int>> indiceInvertido = criarIndiceInvertido(documentos);
     string pesquisaNormalizada = normalizarTexto(textoPesquisado);
     vector <string> palavrasPesquisadas = separarPalavras(pesquisaNormalizada);
-    vector<string> documentosOrdenados = ordenarDocumentos(palavrasPesquisadas, indiceInvertido);
+    vector<string> documentosOrdenados = ordenarDocumentos(palavrasPesquisadas);
     return documentosOrdenados;
 }
