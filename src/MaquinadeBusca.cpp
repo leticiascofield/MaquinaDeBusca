@@ -144,6 +144,7 @@ vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasP
 
     return documentosOrdenados;
 }
+
 vector<string> MaquinaDeBusca::pesquisar(string textoPesquisado){
     this->indiceInvertido = criarIndiceInvertido(documentos);
     string pesquisaNormalizada = normalizarTexto(textoPesquisado);
