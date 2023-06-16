@@ -6,11 +6,10 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <set>
 
-using std::string;  
-using std::vector;
-using std::map;
-using std::stringstream;
+using namespace std;
+
 
 MaquinaDeBusca::MaquinaDeBusca(vector <string> documentos){
     this->documentos = documentos;
@@ -92,24 +91,24 @@ map<string, map<string, int>> MaquinaDeBusca::criarIndiceInvertido(const vector<
 
     return indiceInvertido;
 }
-
 vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasPesquisadas) {
-    map<string, int> prioridadeDocumentos;
-
-    for (const auto& palavra : palavrasPesquisadas) {
-        const auto& documentos = indiceInvertido.find(palavra);
-        if (documentos != indiceInvertido.end()) {
-            for (const auto& documento : documentos->second) {
-                if (documento.second > 0) {
-                    prioridadeDocumentos[documento.first] += documento.second;
-                } else {
-                    // Se o documento não tiver todas as palavras, remove-o da lista de prioridade
-                    prioridadeDocumentos.erase(documento.first);
-                }
+    map<string, int> prioridadeDocumentos= this->indiceInvertido[palavrasPesquisadas[0]];
+    set<string> eliminarDocumentos;
+    for(int i=1; i<(int)palavrasPesquisadas.size(); i++){
+        for (const auto& documento : prioridadeDocumentos) {
+            if(this->indiceInvertido[palavrasPesquisadas[i]].find(documento.first) != this->indiceInvertido[palavrasPesquisadas[i]].end()){
+                prioridadeDocumentos[documento.first] += this->indiceInvertido[palavrasPesquisadas[i]][documento.first];
             }
+                
+            else{
+                eliminarDocumentos.insert(documento.first);
+            }
+                
         }
     }
-
+    for (const auto& documento : eliminarDocumentos) {
+        prioridadeDocumentos.erase(documento);
+    }
     // Filtra os documentos que possuem todas as palavras pesquisadas
     vector<string> documentosComTodasPalavras;
     vector<string> documentosOrdenados;
@@ -145,9 +144,8 @@ vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasP
 
     return documentosOrdenados;
 }
-
 vector<string> MaquinaDeBusca::pesquisar(string textoPesquisado){
-    map<string, map<string, int>> indiceInvertido = criarIndiceInvertido(documentos);
+    this->indiceInvertido = criarIndiceInvertido(documentos);
     string pesquisaNormalizada = normalizarTexto(textoPesquisado);
     vector <string> palavrasPesquisadas = separarPalavras(pesquisaNormalizada);
     vector<string> documentosOrdenados = ordenarDocumentos(palavrasPesquisadas);
