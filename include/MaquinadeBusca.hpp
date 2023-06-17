@@ -11,8 +11,14 @@ using std::map;
 
 class MaquinaDeBusca{
     public:
+    //Criar uma maquina de busca vazia
+    MaquinaDeBusca();
+
     //Criar uma maquina de busca com os documentos
     MaquinaDeBusca(vector <string> documentos);
+
+    //Separa o caminho e o nome dos arquivos na pasta documentos
+    vector <string> obterCaminhoArquivos(const string& caminhoArquivo);
 
     //Normalizar um texto (sendo textoPesquisado ou documentos)
     string normalizarTexto(string texto);
