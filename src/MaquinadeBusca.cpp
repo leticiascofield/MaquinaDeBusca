@@ -74,7 +74,7 @@ vector<string> MaquinaDeBusca::separarPalavras(string textoNormalizado){
 
 vector <string> MaquinaDeBusca::obterCaminhoArquivos(const string& caminhoArquivo){
     std::vector<std::string> caminhoArquivos;
-    std::string directoryPath = "/home/juan/teste/PDS2_Trabalho_Pratico/documentos";
+    std::string directoryPath = "./documentos";
     DIR* dir;
     struct dirent* entry;
 
