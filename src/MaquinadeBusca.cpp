@@ -7,9 +7,11 @@
 #include <sstream>
 #include <algorithm>
 #include <set>
+#include <dirent.h>
 
 using namespace std;
 
+MaquinaDeBusca::MaquinaDeBusca(){}
 
 MaquinaDeBusca::MaquinaDeBusca(vector <string> documentos){
     this->documentos = documentos;
@@ -68,6 +70,29 @@ vector<string> MaquinaDeBusca::separarPalavras(string textoNormalizado){
     }
 
     return palavrasPesquisadas;
+}
+
+vector <string> MaquinaDeBusca::obterCaminhoArquivos(const string& caminhoArquivo){
+    std::vector<std::string> caminhoArquivos;
+    std::string directoryPath = "/home/juan/teste/PDS2_Trabalho_Pratico/documentos";
+    DIR* dir;
+    struct dirent* entry;
+
+    dir = opendir(directoryPath.c_str());
+    if (dir != nullptr) {
+        while ((entry = readdir(dir)) != nullptr) {
+            if (entry->d_type == DT_REG) {
+                std::string fileName = entry->d_name;
+                std::string filePath = directoryPath + "/" + fileName;
+                caminhoArquivos.push_back(filePath);
+            }
+        }
+        closedir(dir);
+    } else {
+        std::cerr << "Error accessing directory." << std::endl;
+    }
+
+    return caminhoArquivos;
 }
 
 map<string, map<string, int>> MaquinaDeBusca::criarIndiceInvertido(const vector<string>& documentos) {
@@ -138,8 +163,9 @@ vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasP
     } else {
         std::cout << "Documentos encontrados (em ordem de prioridade):" << std::endl;
         for (const auto& documento : documentosOrdenados) {
-            std::cout << documento << std::endl;
-        }
+            size_t pos = documento.find_last_of("/\\");
+            std::cout << documento.substr(pos + 1) << std::endl;
+}
     }
 
     return documentosOrdenados;
