@@ -25,7 +25,7 @@ string MaquinaDeBusca::normalizarTexto(string texto){
     string aux;
     aux.reserve(texto.length());
 
-    for (char c : texto) { //troca caracteres maiusculos para o caractere basico
+    for(char c : texto){ //troca caracteres maiusculos para o caractere basico
         size_t found = caractereMaiusculo.find(c);
         if (found != string::npos) {
                 aux += caractereBasico[found];
@@ -58,9 +58,9 @@ string MaquinaDeBusca::normalizarTexto(string texto){
 vector<string> MaquinaDeBusca::separarPalavras(string textoNormalizado){
     vector <string> palavrasPesquisadas; //vetor onde ficarão as palavras já separadas
 
-    for (int i = 0; i < textoNormalizado.size(); i++) {
+    for(int i = 0; i < textoNormalizado.size(); i++){
     string palavraAtual;
-        if (textoNormalizado[i] != ' '){
+        if(textoNormalizado[i] != ' '){
             while (i < textoNormalizado.size() && textoNormalizado[i] != ' '){
             palavraAtual.push_back(textoNormalizado[i]);
             i++;
@@ -116,6 +116,7 @@ map<string, map<string, int>> MaquinaDeBusca::criarIndiceInvertido(const vector<
 
     return indiceInvertido;
 }
+
 vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasPesquisadas) {
     map<string, int> prioridadeDocumentos= this->indiceInvertido[palavrasPesquisadas[0]];
     set<string> eliminarDocumentos;
@@ -165,7 +166,7 @@ vector<string> MaquinaDeBusca::ordenarDocumentos(const vector<string>& palavrasP
         for (const auto& documento : documentosOrdenados) {
             size_t pos = documento.find_last_of("/\\");
             std::cout << documento.substr(pos + 1) << std::endl;
-}
+        }
     }
 
     return documentosOrdenados;

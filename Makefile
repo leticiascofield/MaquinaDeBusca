@@ -1,5 +1,5 @@
-tp_executation: ./build/MaquinadeBusca.o ./build/main.o
-	g++ ./build/*.o -o tp_executation
+main.exe: ./build/MaquinadeBusca.o ./build/main.o
+	g++ ./build/*.o -o main.exe
 
 ./build/MaquinadeBusca.o: ./include/MaquinadeBusca.hpp ./src/MaquinadeBusca.cpp
 	g++ -I ./include/ -c ./src/MaquinadeBusca.cpp -o ./build/MaquinadeBusca.o
@@ -8,7 +8,7 @@ tp_executation: ./build/MaquinadeBusca.o ./build/main.o
 	g++ -I ./include/ -c ./src/main.cpp -o ./build/main.o
 
 run:
-	./tp_executation
+	./main.exe
 
 clean:
 	rm -f ./build/*
