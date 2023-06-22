@@ -3,15 +3,14 @@
 MAQUINA DE BUSCA
 Este é um projeto de implementação de uma máquina de busca simples em C++. A máquina de busca utiliza um índice invertido para realizar pesquisas em uma coleção de documentos.
 
-
 ESTRUTURA DE PASTAS
 O projeto está organizado nas seguintes pastas:
 
-    build: Contém os arquivos objeto gerados durante a compilação.
-        main.o: Arquivo objeto do arquivo main.cpp.
-        MaquinaDeBusca.o: Arquivo objeto do arquivo MaquinaDeBusca.cpp.
+    build: Pasta onde os arquivos objeto gerados durante a compilação serão inseridos.
+        place_holder_para_o_git_não_deletar_a_pasta
 
     documentos: Pasta onde os documentos a serem indexados devem ser inseridos.
+        place_holder_para_o_git_não_deletar_a_pasta
 
     include: Contém os arquivos de cabeçalho.
         MaquinaDeBusca.hpp: Arquivo de cabeçalho da classe MaquinaDeBusca.
@@ -21,6 +20,8 @@ O projeto está organizado nas seguintes pastas:
         MaquinaDeBusca.cpp: Arquivo de código-fonte contendo a implementação da classe MaquinaDeBusca.
 
     Makefile: Arquivo de compilação utilizado para compilar e executar o projeto.
+
+As pastas build e documentos estão com um place holder, porque o Git deleta pastas vazias.
 
 FUNCIONALIDADES
 A classe MaquinaDeBusca possui as seguintes funcionalidades:
