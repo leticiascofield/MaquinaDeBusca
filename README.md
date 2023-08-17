@@ -1,6 +1,6 @@
-# PDS2_Trabalho_Pratico
+# Projeto Máquina de Busca
 
-MAQUINA DE BUSCA
+DESCRIÇÃO
 Este é um projeto de implementação de uma máquina de busca simples em C++. A máquina de busca utiliza um índice invertido para realizar pesquisas em uma coleção de documentos.
 
 ESTRUTURA DE PASTAS
